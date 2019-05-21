@@ -1,25 +1,24 @@
-import React, { Component } from 'react';
-import ReactDOM from 'react-dom';
+const express = require('express');
+const app = express();
+const render = require('./render');
 
-import CatalogPage from '~/components/CatalogPage';
+require('@babel/register');
+require('@babel/polyfill');
 
-import Calculate from '~/src/calculate';
-const calc = new Calculate;
+app.get('/', function (req, res) {
+  const response =`
+    <!doctype html>
+      <html>
+      <head>
+          <title>React Repeat</title>
+      </head>
+      <body>
+          <div id="root">${render()}</div>
+      </body>
+      </html>`;
+  res.send(response);
+});
 
-class App extends Component {
-  constructor(props) {
-    super(props);
-  }
-
-  render() {
-    return(
-      <div>
-        <CatalogPage />
-      </div>
-    );
-  }
-}
-
-ReactDOM.render(<App />, document.getElementById('root'));
-
-
+app.listen(3000, function () {
+  console.log('Example app listening on port 3000!');
+});
